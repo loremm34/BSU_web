@@ -1,0 +1,56 @@
+<h2>Manage Prescriptions</h2>
+
+<form #prescriptionForm="ngForm" (ngSubmit)="onSubmit(prescriptionForm)">
+  <div>
+    <label for="id">ID:</label>
+    <input
+      type="text"
+      id="id"
+      name="id"
+      [(ngModel)]="prescription.id"
+      required
+    />
+  </div>
+
+  <div>
+    <label for="description">Description:</label>
+    <input
+      type="text"
+      id="description"
+      name="description"
+      [(ngModel)]="prescription.description"
+      required
+    />
+  </div>
+
+  <div>
+    <label for="doctor">Doctor:</label>
+    <input
+      type="text"
+      id="doctor"
+      name="doctor"
+      [(ngModel)]="prescription.doctor"
+      required
+    />
+  </div>
+
+  <div>
+    <label for="patient">Patient:</label>
+    <input
+      type="text"
+      id="patient"
+      name="patient"
+      [(ngModel)]="prescription.patient"
+      required
+    />
+  </div>
+
+  <button type="submit" [disabled]="!prescriptionForm.valid">Submit</button>
+  <button type="button" (click)="onUpdate()">Update</button>
+  <button type="button" (click)="onDelete()">Delete</button>
+</form>
+
+<button (click)="goBack()">Back to Prescriptions List</button>
+<button type="button" (click)="loadMockPrescriptions()">
+  Load Prescription from Mock List
+</button>

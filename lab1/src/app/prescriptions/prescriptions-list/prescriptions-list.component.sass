@@ -1,0 +1,26 @@
+$menu-background: #f9f9f9
+$menu-hover-background: #e0e0e0
+$menu-text-color: #333
+$menu-hover-text-color: #000
+$menu-border-color: #ccc
+
+div
+  padding: 10px
+  margin-bottom: 5px
+  background-color: $menu-background
+  border: 1px solid $menu-border-color
+  color: $menu-text-color
+  border-radius: 5px
+  transition: background-color 0.3s ease, color 0.3s ease
+  
+  &:hover
+    background-color: $menu-hover-background
+    color: $menu-hover-text-color
+
+  h3
+    font-size: 1.5em
+    margin: 0
+
+  p
+    margin: 0
+    color: $menu-text-color

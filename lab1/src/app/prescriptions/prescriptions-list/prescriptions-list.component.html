@@ -1,0 +1,12 @@
+<div class="prescriptions-list">
+  <div
+    class="prescription-item"
+    *ngFor="let prescription of prescriptionss$ | async"
+    (click)="onSelect(prescription)"
+  >
+    <h3>{{ prescription.description }}</h3>
+    <p>Doctor: {{ prescription.doctor }}</p>
+    <p>Patient: {{ prescription.patient }}</p>
+  </div>
+  <button (click)="goToForm()">Add or Edit Menu</button>
+</div>

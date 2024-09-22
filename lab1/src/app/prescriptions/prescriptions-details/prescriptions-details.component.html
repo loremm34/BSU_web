@@ -1,0 +1,11 @@
+<div *ngIf="prescription">
+  <h2>{{ prescription.description }} Details</h2>
+  <p>ID: {{ prescription.id }}</p>
+  <p>Doctor: {{ prescription.doctor }}</p>
+  <p>Patient: {{ prescription.patient }}</p>
+</div>
+
+<!-- Добавь заглушку для случая, если данные еще не загрузились -->
+<div *ngIf="!prescription">
+  <p>Loading prescription details...</p>
+</div>
