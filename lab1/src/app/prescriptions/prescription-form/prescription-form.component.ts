@@ -12,7 +12,7 @@ import { Prescriptionss } from '../services/mock-prescriptions-list';
 })
 export class PrescriptionFormComponent {
   prescription: Prescriptions = {
-    id: '0', // id теперь строка
+    id: '0',
     description: '',
     doctor: '',
     patient: '',
@@ -46,11 +46,10 @@ export class PrescriptionFormComponent {
       this.prescriptionService.getPrescriptionss()
     );
 
-    // Присваиваем id как строку
     this.prescription.id =
       prescriptions && prescriptions.length > 0
-        ? (Math.max(...prescriptions.map((m) => Number(m.id))) + 1).toString() //
-        : '1'; // Строка
+        ? (Math.max(...prescriptions.map((m) => Number(m.id))) + 1).toString()
+        : '1';
 
     await this.prescriptionService.addPrescriptions(this.prescription);
     console.log('Prescriptions Added:', prescriptions);

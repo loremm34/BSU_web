@@ -18,18 +18,14 @@ export class PrescriptionsDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Получаем строковый ID из URL
     const id = this.route.snapshot.paramMap.get('id');
 
     if (id) {
-      // Подписываемся на поток данных из Firebase
       this.prescriptionsService
         .getPrescriptionss()
         .subscribe((prescriptions) => {
-          // Находим рецепт по строковому ID
           this.prescription = prescriptions.find((p) => p.id === id);
 
-          // Проверка, найден ли рецепт
           if (!this.prescription) {
             console.error('Prescription not found!');
           }

@@ -1,1 +1,6 @@
-{}
+{
+  "hosting": {
+    "public": "dist/lab1/browser",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+  }
+}
