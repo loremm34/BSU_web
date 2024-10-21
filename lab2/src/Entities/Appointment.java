@@ -2,8 +2,10 @@ package Entities;
 
 public class Appointment {
     private String description;
+    private int id;
 
-    public Appointment(String description) {
+    public Appointment(int id,String description) {
+        this.id = id;
         this.description = description;
     }
 

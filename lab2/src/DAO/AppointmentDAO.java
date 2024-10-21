@@ -1,28 +1,42 @@
 package DAO;
 
-import Connector.JdbcConnector;
+import Connector.ConnectionPool;
 import Entities.Appointment;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AppointmentDAO {
+    private static final Logger logger = Logger.getLogger(AppointmentDAO.class.getName());
 
-    // Получение всех назначений по пациенту
-    public List<Appointment> getAppointmentsByPatientId(int patientId) throws SQLException {
+    public List<Appointment> getAppointmentsByPatient(int patientId) throws SQLException {
         List<Appointment> appointments = new ArrayList<>();
-        String sql = "SELECT * FROM Appointment WHERE patient_id = ?";
+        String sql = "SELECT * FROM Appointments WHERE patient_id = ?";
+        Connection conn = null;
 
-        try (Connection conn = JdbcConnector.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, patientId);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    Appointment appointment = new Appointment(rs.getString("description"));
-                    appointments.add(appointment);
+        try {
+            // Получаем соединение из пула
+            conn = ConnectionPool.getConnection();
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, patientId);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        // Создаем экземпляр Appointment на основе результатов запроса
+                        Appointment appointment = new Appointment(rs.getInt("id"), rs.getString("description"));
+                        appointments.add(appointment);
+                    }
                 }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Ошибка при получении назначений", e);
+            throw e; // Пробрасываем исключение дальше
+        } finally {
+            // Освобождаем соединение
+            if (conn != null) {
+                ConnectionPool.releaseConnection(conn);
             }
         }
 
@@ -30,44 +44,25 @@ public class AppointmentDAO {
     }
 
     public void addAppointment(String description, int patientId) throws SQLException {
-        String sql = "INSERT INTO Appointment (description, patient_id) VALUES (?, ?)"; // Запрос на добавление назначения
+        String sql = "INSERT INTO Appointments (description, patient_id) VALUES (?, ?)";
+        Connection conn = null;
 
-        try (Connection connection = JdbcConnector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
-            statement.setString(1, description);
-            statement.setInt(2, patientId); // Установка ID пациента
-            statement.executeUpdate(); // Выполнение запроса
-        }
-    }
-
-    // Добавление нового назначения
-    public void addAppointment(int patientId, String description) throws SQLException {
-        String sql = "INSERT INTO Appointment (patient_id, description) VALUES (?, ?)";
-
-        try (Connection conn = JdbcConnector.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, patientId);
-            pstmt.setString(2, description);
-            pstmt.executeUpdate();
-        }
-    }
-
-    public List<Appointment> getAppointmentsByPatient(int patientId) throws SQLException {
-        List<Appointment> appointments = new ArrayList<>();
-        String sql = "SELECT * FROM Appointment WHERE patient_id = ?"; // Запрос для получения назначений
-
-        try (Connection connection = JdbcConnector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
-            statement.setInt(1, patientId);
-            ResultSet rs = statement.executeQuery();
-
-            while (rs.next()) {
-                appointments.add(new Appointment(rs.getString("description")));
+        try {
+            // Получаем соединение из пула
+            conn = ConnectionPool.getConnection();
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, description);
+                pstmt.setInt(2, patientId);
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Ошибка при добавлении назначения", e);
+            throw e; // Пробрасываем исключение дальше
+        } finally {
+            // Освобождаем соединение
+            if (conn != null) {
+                ConnectionPool.releaseConnection(conn);
             }
         }
-
-        return appointments;
     }
 }

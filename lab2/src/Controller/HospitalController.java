@@ -1,5 +1,6 @@
 package Controller;
 
+
 import DAO.*;
 import Entities.*;
 
@@ -14,7 +15,6 @@ public class HospitalController {
     private final DiagnosisDAO diagnosisDAO = new DiagnosisDAO();
     private final AppointmentDAO appointmentDAO = new AppointmentDAO();
 
-    // Показать всех врачей
     public void showDoctors() {
         try {
             List<Doctor> doctors = doctorDAO.getAllDoctors();
@@ -27,7 +27,6 @@ public class HospitalController {
         }
     }
 
-    // Показать пациентов врача
     public void showPatientsOfDoctor() {
         try {
             System.out.print("\nВведите ID врача: ");
@@ -43,7 +42,6 @@ public class HospitalController {
         }
     }
 
-    // Добавить пациента к врачу
     public void addPatientToDoctor() {
         try {
             System.out.print("\nВведите имя пациента: ");
@@ -58,14 +56,11 @@ public class HospitalController {
         }
     }
 
-
-
-    // Назначить диагноз пациенту
     public void diagnosePatient() {
         try {
-            System.out.print("\nВведите имя пациента: ");
-            String patientName = scanner.next();
-            Patient patient = patientDAO.getPatientByName(patientName);
+            System.out.print("\nВведите ID пациента: ");
+            int patientId = scanner.nextInt();
+            Patient patient = patientDAO.getPatientById(patientId);
             if (patient == null) {
                 System.out.println("Пациент не найден.");
                 return;
@@ -81,17 +76,16 @@ public class HospitalController {
         }
     }
 
-    // Показать диагноз пациента
     public void showDiagnosisOfPatient() {
         try {
-            System.out.print("\nВведите имя пациента: ");
-            String patientName = scanner.next();
-            Patient patient = patientDAO.getPatientByName(patientName);
+            System.out.print("\nВведите ID пациента: ");
+            int patientId = scanner.nextInt();
+            Patient patient = patientDAO.getPatientById(patientId);
 
             if (patient != null) {
                 Diagnosis diagnosis = diagnosisDAO.getDiagnosisByPatient(patient.getId());
                 if (diagnosis != null) {
-                    System.out.println("Диагноз пациента " + patientName + ": " + diagnosis.getDescription());
+                    System.out.println("Диагноз пациента: " + diagnosis.getDescription());
                 } else {
                     System.out.println("У пациента нет диагноза.");
                 }
@@ -106,9 +100,9 @@ public class HospitalController {
     // Добавить назначение пациенту
     public void addAppointmentToPatient() {
         try {
-            System.out.print("\nВведите имя пациента: ");
-            String patientName = scanner.next();
-            Patient patient = patientDAO.getPatientByName(patientName);
+            System.out.print("\nВведите ID пациента: ");
+            int patientId = scanner.nextInt();
+            Patient patient = patientDAO.getPatientById(patientId);
 
             if (patient != null) {
                 System.out.print("Введите описание назначения: ");
@@ -127,14 +121,14 @@ public class HospitalController {
     // Показать назначения пациента
     public void showAppointmentsOfPatient() {
         try {
-            System.out.print("\nВведите имя пациента: ");
-            String patientName = scanner.next();
-            Patient patient = patientDAO.getPatientByName(patientName);
+            System.out.print("\nВведите ID пациента: ");
+            int patientId = scanner.nextInt();
+            Patient patient = patientDAO.getPatientById(patientId);
 
             if (patient != null) {
                 List<Appointment> appointments = appointmentDAO.getAppointmentsByPatient(patient.getId());
 
-                System.out.println("\nНазначения пациента " + patientName + ":");
+                System.out.println("\nНазначения пациента:");
                 for (Appointment appointment : appointments) {
                     System.out.println("- " + appointment.getDescription());
                 }
@@ -149,15 +143,30 @@ public class HospitalController {
     // Выписать пациента
     public void dischargePatient() {
         try {
-            System.out.print("\nВведите имя пациента: ");
-            String patientName = scanner.next();
-            Patient patient = patientDAO.getPatientByName(patientName);
+            System.out.print("\nВведите ID пациента: ");
+            int patientId = scanner.nextInt();
+            Patient patient = patientDAO.getPatientById(patientId);
 
             if (patient != null) {
                 patient.discharge();
                 System.out.println("Пациент выписан.");
             } else {
                 System.out.println("Пациент не найден.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showAllPatientsOfDoctor() {
+        try {
+            System.out.print("\nВведите ID врача: ");
+            int doctorId = scanner.nextInt();
+            List<Patient> patients = patientDAO.getPatientsByDoctor(doctorId);
+
+            System.out.println("\nПациенты врача:");
+            for (Patient patient : patients) {
+                System.out.println(patient.getId() + ". " + patient.getName());
             }
         } catch (SQLException e) {
             e.printStackTrace();

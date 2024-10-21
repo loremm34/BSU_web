@@ -14,10 +14,11 @@ public class Main {
             System.out.println("2. Показать пациентов врача");
             System.out.println("3. Добавить пациента к врачу");
             System.out.println("4. Назначить диагноз пациенту");
-            System.out.println("5. Показать диагноз пациента");
+            System.out.println("5. Вывести информацию о диагнозе заданного пациента");
             System.out.println("6. Добавить назначение пациенту");
-            System.out.println("7. Показать назначения пациента");
+            System.out.println("7. Вывести информацию обо всех назначениях заданного пациента");
             System.out.println("8. Выписать пациента");
+            System.out.println("9. Вывести информацию обо всех пациентах заданного врача");
             System.out.println("0. Выйти");
             System.out.print("Выберите действие: ");
 
@@ -48,6 +49,9 @@ public class Main {
                 case 8:
                     controller.dischargePatient();
                     break;
+                case 9:
+                    controller.showAllPatientsOfDoctor();
+                    break;
                 case 0:
                     running = false;
                     break;
@@ -55,5 +59,6 @@ public class Main {
                     System.out.println("Неверный выбор.");
             }
         }
+        scanner.close();
     }
 }

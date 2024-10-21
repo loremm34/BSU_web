@@ -1,93 +1,111 @@
 package DAO;
 
-import Connector.JdbcConnector;
+import Connector.ConnectionPool;
 import Entities.Patient;
 import Entities.Diagnosis;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PatientDAO {
+    private static final Logger logger = Logger.getLogger(PatientDAO.class.getName());
 
-    // Получение всех пациентов
     public List<Patient> getAllPatients() throws SQLException {
         List<Patient> patients = new ArrayList<>();
         String sql = "SELECT * FROM Patient";
+        Connection conn = null;
 
-        try (Connection conn = JdbcConnector.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+        try {
+            conn = ConnectionPool.getConnection();
+            try (PreparedStatement pstmt = conn.prepareStatement(sql);
+                 ResultSet rs = pstmt.executeQuery()) {
 
-            while (rs.next()) {
-                Patient patient = new Patient(rs.getInt("id"), rs.getString("name"));
-                patients.add(patient);
+                while (rs.next()) {
+                    Patient patient = new Patient(rs.getInt("id"), rs.getString("name"));
+                    patients.add(patient);
+                }
             }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Ошибка при получении списка пациентов", e);
+            throw e;
+        } finally {
+            ConnectionPool.releaseConnection(conn);
         }
 
         return patients;
     }
 
-    // Получение пациента по имени
-    public Patient getPatientByName(String name) throws SQLException {
-        String sql = "SELECT * FROM Patient WHERE name = ?";
+    public Patient getPatientById(int id) throws SQLException {
+        String sql = "SELECT * FROM Patient WHERE id = ?";
+        Connection conn = null;
         Patient patient = null;
 
-        try (Connection conn = JdbcConnector.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, name);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    patient = new Patient(rs.getInt("id"), rs.getString("name"));
+        try {
+            conn = ConnectionPool.getConnection();
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, id);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (rs.next()) {
+                        patient = new Patient(rs.getInt("id"), rs.getString("name"));
+                    }
                 }
             }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Ошибка при получении пациента по ID", e);
+            throw e;
+        } finally {
+            ConnectionPool.releaseConnection(conn);
         }
 
         return patient;
     }
-
     public List<Patient> getPatientsByDoctor(int doctorId) throws SQLException {
+        Connection connection = ConnectionPool.getConnection();
         List<Patient> patients = new ArrayList<>();
-        String sql = "SELECT * FROM Patient WHERE doctor_id = ?"; // Запрос для получения пациентов по ID врача
-
-        try (Connection connection = JdbcConnector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
+        String query = "SELECT * FROM Patients WHERE doctor_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, doctorId);
-            ResultSet rs = statement.executeQuery();
-
-            while (rs.next()) {
-                Patient patient = new Patient(rs.getInt("id"), rs.getString("name"));
-                // Установите другие поля, если они есть
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Patient patient = new Patient(resultSet.getInt("id"), resultSet.getString("name"));
                 patients.add(patient);
             }
         }
-
         return patients;
     }
 
     public void addPatient(String patientName, int doctorId) throws SQLException {
-        String sql = "INSERT INTO Patient (name, doctor_id) VALUES (?, ?)"; // Запрос на добавление пациента
-
-        try (Connection connection = JdbcConnector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
+        String query = "INSERT INTO Patients (name, doctor_id) VALUES (?, ?)";
+        Connection connection = ConnectionPool.getConnection();
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, patientName);
-            statement.setInt(2, doctorId); // Установка ID врача
-            statement.executeUpdate(); // Выполнение запроса
+            statement.setInt(2, doctorId);
+            statement.executeUpdate();
         }
     }
 
-    // Обновление диагноза пациента
-    public void updatePatientDiagnosis(int patientId, Diagnosis diagnosis) throws SQLException {
-        String sql = "UPDATE Patient SET Diagnosis = ? WHERE id = ?";
+    public void addPatient(Patient patient) throws SQLException {
+        String sql = "INSERT INTO Patient (name, diagnosis_id) VALUES (?, ?)";
+        Connection conn = null;
 
-        try (Connection conn = JdbcConnector.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, diagnosis.getDescription());
-            pstmt.setInt(2, patientId);
-            pstmt.executeUpdate();
+        try {
+            conn = ConnectionPool.getConnection();
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, patient.getName());
+                pstmt.setString(1, patient.getDiagnosis().getDescription());
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Ошибка при добавлении пациента", e);
+            throw e;
+        } finally {
+            ConnectionPool.releaseConnection(conn);
         }
     }
 }
