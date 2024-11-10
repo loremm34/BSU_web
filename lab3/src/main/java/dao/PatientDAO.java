@@ -1,51 +1,57 @@
 package dao;
 
 import entity.Patient;
+import entity.Patient_;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PatientDAO {
 
+    private static final Logger LOGGER = Logger.getLogger(PatientDAO.class.getName());
     private EntityManager em;
 
     public PatientDAO(EntityManager em) {
         this.em = em;
     }
 
-    // Сохранение нового пациента
-    public void save(Patient patient) {
-        em.getTransaction().begin();
-        em.persist(patient);
-        em.getTransaction().commit();
-    }
-
-    // Получение пациента по ID
     public Patient findById(Long id) {
-        return em.find(Patient.class, id);
-    }
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Patient> cq = cb.createQuery(Patient.class);
+            Root<Patient> patientRoot = cq.from(Patient.class);
+            cq.select(patientRoot).where(cb.equal(patientRoot.get(Patient_.id), id));
 
-    // Получение всех пациентов
-    public List<Patient> findAll() {
-        TypedQuery<Patient> query = em.createQuery("SELECT p FROM Patient p", Patient.class);
-        return query.getResultList();
-    }
-
-    // Обновление данных пациента
-    public void update(Patient patient) {
-        em.getTransaction().begin();
-        em.merge(patient);
-        em.getTransaction().commit();
-    }
-
-    // Удаление пациента
-    public void delete(Long id) {
-        em.getTransaction().begin();
-        Patient patient = em.find(Patient.class, id);
-        if (patient != null) {
-            em.remove(patient);
+            Patient patient = em.createQuery(cq).getSingleResult();
+            LOGGER.info("Patient найден: " + patient);
+            return patient;
+        } catch (PersistenceException e) {
+            LOGGER.log(Level.SEVERE, "Ошибка при получении Patient с ID: " + id, e);
+            e.printStackTrace();
+            return null;
         }
-        em.getTransaction().commit();
+    }
+
+    public List<Patient> findAll() {
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Patient> cq = cb.createQuery(Patient.class);
+            Root<Patient> patientRoot = cq.from(Patient.class);
+            cq.select(patientRoot);
+
+            List<Patient> result = em.createQuery(cq).getResultList();
+            LOGGER.info("Получены все Patient, количество: " + result.size());
+            return result;
+        } catch (PersistenceException e) {
+            LOGGER.log(Level.SEVERE, "Ошибка при получении всех Patient", e);
+            e.printStackTrace();
+            return null;
+        }
     }
 }

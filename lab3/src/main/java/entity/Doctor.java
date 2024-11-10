@@ -1,14 +1,14 @@
 package entity;
 
 import jakarta.persistence.*;
-import java.util.List;
+import jakarta.persistence.metamodel.StaticMetamodel;
 
+import java.util.List;
 @Entity
 @Table(name = "doctors")
-@NamedQueries({
-        @NamedQuery(name = "Doctor.findAll", query = "SELECT d FROM Doctor d"),
-        @NamedQuery(name = "Doctor.findBySpecialization", query = "SELECT d FROM Doctor d WHERE d.specialization = :specialization")
-})
+
+@StaticMetamodel(Doctor.class)
+
 public class Doctor {
 
     @Id

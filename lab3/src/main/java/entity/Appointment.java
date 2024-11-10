@@ -2,18 +2,15 @@ package entity;
 
 
 import jakarta.persistence.*;
+import jakarta.persistence.metamodel.StaticMetamodel;
+
 import java.util.Date;
 
 
 
 @Entity
 @Table(name = "appointments")
-@NamedQueries({
-        @NamedQuery(name = "Appointment.findAll", query = "SELECT a FROM Appointment a"),
-        @NamedQuery(name = "Appointment.findByPatient", query = "SELECT a FROM Appointment a WHERE a.patient = :patient"),
-        @NamedQuery(name = "Appointment.findByDoctor", query = "SELECT a FROM Appointment a WHERE a.doctor = :doctor"),
-        @NamedQuery(name = "Appointment.findByDate", query = "SELECT a FROM Appointment a WHERE a.appointmentDate = :appointmentDate")
-})
+@StaticMetamodel(Appointment.class)
 public class Appointment {
 
     @Id

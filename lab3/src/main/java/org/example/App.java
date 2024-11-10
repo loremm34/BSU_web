@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-public class App 
+public class App
 {
     public static void main(String[] args) {
         MainController controller = new MainController();
@@ -31,7 +31,7 @@ public class App
             System.out.println("8. Выйти");
 
             int choice = scanner.nextInt();
-            scanner.nextLine();  // Считываем конец строки
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -121,7 +121,6 @@ public class App
             }
         }
 
-        // Закрытие ресурсов
         controller.close();
         scanner.close();
     }
