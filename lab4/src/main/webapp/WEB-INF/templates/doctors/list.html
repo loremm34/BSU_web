@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Menu Items</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="../../../styles/global.css">
+</head>
+
+<body>
+
+<h1>Menu Items</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>Item Name</th>
+    <th>Price</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="doctor, doctorStat : ${Doctors}" th:class="${doctorStat.odd} ? 'odd' : ''">
+    <td th:text="${doctor.name}">Sample Item</td>
+    <td th:text="${doctor.specialization}">0.00</td>
+  </tr>
+  </tbody>
+</table>
+
+<p>
+  <a href="../home.html" th:href="@{/}">Return to home</a>
+</p>
+<footer>
+  Thank you for visiting!
+</footer>
+</body>
+
+</html>

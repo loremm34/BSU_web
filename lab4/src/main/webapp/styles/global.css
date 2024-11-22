@@ -1,0 +1,160 @@
+/* Global Stylesheet */
+
+/* General Body Styling */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa; /* Light background */
+    color: #343a40; /* Dark text */
+    line-height: 1.6;
+}
+p {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.option-select{
+    display: block;
+    width: 100%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+/* Header Styles */
+h1, h2, h3 {
+    text-align: center;
+    color: #495057;
+    margin-top: 20px;
+}
+
+/* Links */
+a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Buttons */
+input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Table Styles */
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+td {
+    background-color: #ffffff;
+}
+
+tr:nth-child(even) td {
+    background-color: #f2f2f2;
+}
+
+tr:hover td {
+    background-color: #e9ecef;
+    cursor: pointer;
+}
+
+form {
+    margin: 20px auto;
+    display: block;
+    text-align: center;
+}
+
+/* Button Styling */
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: block;
+    margin: 10px auto;
+    width: 50%;
+}
+
+/* Button Hover Effect */
+button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Button Active State */
+button:active {
+    background-color: #003d7a;
+    transform: scale(0.95);
+}
+
+.container {
+    text-align: center;
+    margin-top: 20px;
+}
+/*
+Header main footer
+*/
+
+header {
+  min-height: 50px;
+  background: lightcyan;
+}
+main {
+    flex: 1;
+}
+
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #343a40;
+    color: white;
+    margin-top: auto;
+}

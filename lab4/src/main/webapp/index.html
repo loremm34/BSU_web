@@ -1,0 +1,40 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Our Restaurant</title>
+    <link rel="stylesheet" href="styles/global.css">
+</head>
+<body>
+<header>
+    <h1>Welcome to Our Restaurant</h1>
+</header>
+<main>
+<h2>About Us</h2>
+<h3>Step into the world of our vibrant kitchen, where passion meets culinary expertise. Uncover the profiles of our
+exceptional chefs, each a cornerstone of our gastronomic journey. Delve into their backgrounds, specialties, and
+signature dishes, and see how their diverse talents harmonize to create extraordinary flavors. Whether seasoned chefs
+with a wealth of experience or emerging talents pushing culinary boundaries, these individuals are the driving force
+behind our exquisite menu. Explore their stories and savor the magic of culinary artistry in action.</h3>
+<p class = "option-select">Select an option</p>
+    <div class="container">
+        <form action="welcome/home" method="POST">
+            <button type="submit">Check your cookies</button>
+        </form>
+
+        <form action="welcome/doctors/list" method="POST">
+        <button type="submit">Menu list</button>
+    </form>
+    <form action="welcome/appointments/list" method="POST">
+        <button type="submit">Customers list</button>
+    </form>
+    <form action="welcome/doctors/add" method="POST">
+         <button type="submit">Add</button>
+    </form>
+    </div>
+
+</main>
+<footer>
+    Thank you for visiting!
+</footer>
+</body></html>

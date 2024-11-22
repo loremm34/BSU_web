@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Customers</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../../../styles/global.css">
+</head>
+
+<body>
+
+<h1>Menu Items</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Customer name</th>
+        <th>Phone number</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="Appointments : ${Appointments}" th:class="${AppointmentsStat.odd}? 'odd'">
+        <td th:text="${Appointments.treatment}">John Doe</td>
+        <td th:text="${Appointments.appointmentDate}">+88005553535</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>
+    <a href="../home.html" th:href="@{/}">Return to home</a>
+</p>
+<footer>
+    Thank you for visiting!
+</footer>
+</body>
+
+</html>

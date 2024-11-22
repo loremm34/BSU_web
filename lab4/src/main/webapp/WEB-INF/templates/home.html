@@ -1,0 +1,20 @@
+<html>
+<head>
+    <title>Cookies</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="../../styles/global.css">
+</head>
+<body>
+<h1>This is the information about the cookies:</h1>
+
+<p>Last Visit: <span th:text="${lastVisit}">No previous visit</span></p>
+<p>Number of Visits: <span th:text="${visitCount}">0</span></p>
+
+<p>
+    <a href="../home.html" th:href="@{/}">Return to home</a>
+</p>
+<footer>
+    Thank you for visiting!
+</footer>
+</body>
+</html>
