@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to Our Hospital</title>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        ul {
+
+list-style-type: none;
+}
+body {
+   margin: 0;
+   padding: 0;
+   font-family: Arial, sans-serif;
+   background-color: #f4f4f4;
+   color: #333;
+   line-height: 1.6;
+   display: flex;
+   flex-direction: column;
+   min-height: 100vh;
+}
+
+h1, h2, h3 {
+   text-align: center;
+   margin: 20px 0;
+   color: #222;
+}
+
+p {
+   margin: 20px;
+   color: #555;
+   text-align: justify;
+}
+
+a {
+   color: #0066cc;
+   text-decoration: none;
+}
+
+a:hover {
+   text-decoration: underline;
+}
+
+table {
+   width: 90%;
+   margin: 20px auto;
+   border-collapse: collapse;
+   background-color: white;
+}
+
+th, td {
+   border: 1px solid #ddd;
+   padding: 10px;
+   text-align: left;
+}
+
+th {
+   background-color: #f0f0f0;
+   font-weight: bold;
+}
+
+tr:nth-child(even) {
+   background-color: #f9f9f9;
+}
+
+tr:hover {
+   background-color: #e0e0e0;
+}
+
+form {
+   margin: 10px 0;
+   text-align: center;
+}
+
+label {
+   display: block;
+   margin-bottom: 5px;
+   font-weight: bold;
+}
+
+input[type="text"], input[type="password"], input[type="email"] {
+   width: 90%;
+   padding: 8px;
+   margin: 10px auto;
+   display: block;
+   border: 1px solid #ccc;
+   border-radius: 4px;
+}
+
+button, input[type="submit"] {
+   background-color: #007bff;
+   color: white;
+   border: none;
+   padding: 10px 20px;
+   font-size: 16px;
+   border-radius: 4px;
+   cursor: pointer;
+}
+
+button:hover, input[type="submit"]:hover {
+   background-color: #0056b3;
+}
+
+button:active {
+   background-color: #003d7a;
+}
+
+.container {
+   text-align: center;
+   margin-top: 20px;
+}
+
+.option-select {
+   padding: 20px;
+   background: #ffffff;
+   margin: 20px auto;
+   border-radius: 8px;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   width: 80%;
+}
+
+header {
+   background-color: #e3f2fd;
+   padding: 10px 0;
+   text-align: center;
+   border-bottom: 1px solid #ddd;
+}
+
+main {
+   flex: 1;
+   padding: 20px;
+}
+
+footer {
+   background-color: #333;
+   color: white;
+   text-align: center;
+   padding: 10px 0;
+   margin-top: auto;
+}
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to Our Hospital</h1>
+</header>
+    <main>
+        <h2>About Us</h2>
+        <h3>Step into the heart of our hospital, where compassion intertwines with medical
+            expertise. Discover the profiles of our remarkable doctors and healthcare professionals,
+            each a vital part of our healing mission. Learn about their backgrounds, areas of specialization,
+            and notable achievements, and see how their unique skills come together to provide exceptional care.
+            Whether they are seasoned practitioners with years of experience or emerging talents eager to
+            innovate, these individuals are the backbone of our institution.
+            Explore their journeys and experience the art of medicine in action.</h3>
+    <p class = "option-select">Select an option</p>
+<ul>
+    <li th:if="${role == 'ADMIN' or role == 'USER'}">
+        <form action="cookies" method="POST">
+            <button type="submit">Check your cookies</button>
+        </form>
+    </li>
+    <li th:if="${role == 'ADMIN' or role == 'USER'}">
+        <form action="doctors/list" method="POST">
+            <button type="submit">Doctors list</button>
+        </form>
+    </li>
+    <li th:if="${role == 'ADMIN' or role == 'USER'}">
+        <form action="appointments/list" method="POST">
+            <button type="submit">Appointments list</button>
+        </form>
+    </li >
+    <li th:if="${role == 'ADMIN'}">
+    <form action="doctors/add" method="POST">
+        <button type="submit">Add a doctor</button>
+    </form>
+    </li >
+    <form th:if="${role == 'GUEST'}" action="/authPage" method="get" class="auth-form">
+        <button type = "submit">Log in</button>
+    </form>
+    <li>
+        <form th:if="${role == 'GUEST'}" action="/registerPage" method="get" class="auth-form">
+            <button type = "submit">Register</button>
+        </form>
+    </li>
+    <li th:if="${role == 'ADMIN' or role == 'USER'}">
+        <form action="/logout" method="post" class="auth-form">
+            <button type="submit">Log out</button>
+        </form>
+    </li>
+
+</ul>
+</main>
+</body>
+<footer>
+Thank you for visiting!
+</footer>
+</html>

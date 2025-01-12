@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Appointments</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        ul {
+
+list-style-type: none;
+}
+body {
+   margin: 0;
+   padding: 0;
+   font-family: Arial, sans-serif;
+   background-color: #f4f4f4;
+   color: #333;
+   line-height: 1.6;
+   display: flex;
+   flex-direction: column;
+   min-height: 100vh;
+}
+
+h1, h2, h3 {
+   text-align: center;
+   margin: 20px 0;
+   color: #222;
+}
+
+p {
+   margin: 20px;
+   color: #555;
+   text-align: justify;
+}
+
+a {
+   color: #0066cc;
+   text-decoration: none;
+}
+
+a:hover {
+   text-decoration: underline;
+}
+
+table {
+   width: 90%;
+   margin: 20px auto;
+   border-collapse: collapse;
+   background-color: white;
+}
+
+th, td {
+   border: 1px solid #ddd;
+   padding: 10px;
+   text-align: left;
+}
+
+th {
+   background-color: #f0f0f0;
+   font-weight: bold;
+}
+
+tr:nth-child(even) {
+   background-color: #f9f9f9;
+}
+
+tr:hover {
+   background-color: #e0e0e0;
+}
+
+form {
+   margin: 10px 0;
+   text-align: center;
+}
+
+label {
+   display: block;
+   margin-bottom: 5px;
+   font-weight: bold;
+}
+
+input[type="text"], input[type="password"], input[type="email"] {
+   width: 90%;
+   padding: 8px;
+   margin: 10px auto;
+   display: block;
+   border: 1px solid #ccc;
+   border-radius: 4px;
+}
+
+button, input[type="submit"] {
+   background-color: #007bff;
+   color: white;
+   border: none;
+   padding: 10px 20px;
+   font-size: 16px;
+   border-radius: 4px;
+   cursor: pointer;
+}
+
+button:hover, input[type="submit"]:hover {
+   background-color: #0056b3;
+}
+
+button:active {
+   background-color: #003d7a;
+}
+
+.container {
+   text-align: center;
+   margin-top: 20px;
+}
+
+.option-select {
+   padding: 20px;
+   background: #ffffff;
+   margin: 20px auto;
+   border-radius: 8px;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   width: 80%;
+}
+
+header {
+   background-color: #e3f2fd;
+   padding: 10px 0;
+   text-align: center;
+   border-bottom: 1px solid #ddd;
+}
+
+main {
+   flex: 1;
+   padding: 20px;
+}
+
+footer {
+   background-color: #333;
+   color: white;
+   text-align: center;
+   padding: 10px 0;
+   margin-top: auto;
+}
+    </style>
+
+</head>
+
+<body>
+
+<h1>Appointments Items</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Appointment title</th>
+        <th>Appointment date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="Appointments : ${Appointments}" th:class="${AppointmentsStat.odd}? 'odd'">
+        <td th:text="${Appointments.treatment}">Antiviral medications</td>
+        <td th:text="${Appointments.appointmentDate}">Mon Nov 04 00:00:00 MSK 2024</td>
+    </tr>
+    </tbody>
+</table>
+
+<p>
+    <a href="../home.html" th:href="@{/}">Return to home</a>
+</p>
+<footer>
+    Thank you for visiting!
+</footer>
+</body>
+
+</html>
